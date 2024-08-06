@@ -43,6 +43,8 @@ app.use(express.json())
 app.use("/user", userRoute);
 
 
+
+
 // Inicializando o servidor
 app.listen(port,() => console.log(`Server running on port ${port}`));
 
