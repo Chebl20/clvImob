@@ -1,7 +1,7 @@
 {
   "name": "clv",
   "version": "1.0.0",
-  "description": "api para sistema de controle de imoveis",
+  "description": "API para sistema de controle de imóveis",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index"
   },
-  "author": "",
+  "author": "Seu Nome ou Empresa",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
