@@ -45,9 +45,12 @@ const upload = multer({ storage });
 
 // Usando a rota importada
 import userRoute from "./routes/user.route.js";
-import authRoute from "./routes/auth.rotes.js";
+import authRoute from "./routes/auth.route.js";
+import imobRoute from "./routes/imob.route.js";
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
+app.use("/imob", imobRoute);
+
  
 // Conexão com o banco de dados e inicialização do servidor
 connectDatabase()
