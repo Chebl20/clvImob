@@ -24,7 +24,7 @@ export const authMiddleware = async (req, res, next) => {
             return res.sendStatus(401);
         }
 
-        jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
+        jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => { 
             if (error) {
                 console.error("JWT verification error:", error.message);
                 return res.status(401).send("Token Invalid");
@@ -33,8 +33,6 @@ export const authMiddleware = async (req, res, next) => {
             // Adiciona os dados decodificados ao objeto req, se necessário
             req.user = decoded;
             const user = await userService.findIdService(decoded.id);
-
-            console.log(user);
 
             if (!user || !user.id) {
                 return res.status(401).send("Token Invalid for user"); // Retorna 401 se a verificação falhar
