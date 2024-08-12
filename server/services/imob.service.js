@@ -4,7 +4,6 @@ import Imob from "../models/Imobs.js";
 export const createService = (body) => Imob.create(body);
 
 export const findAllService = (offset, limit) => Imob.find().skip(offset).limit(limit).populate("proprietario"); // Corrigido para "proprietario"
-// Supondo que "user" seja o campo que referencia o modelo User
 
 export const countImob = () => Imob.countDocuments();
 

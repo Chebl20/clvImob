@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {create,getAll} from "../controllers/contract.controller.js";
+import {create,findById,getAll} from "../controllers/contract.controller.js";
 import {authMiddleware} from "../middlewares/auth.middlewares.js"
 // import middlewares from '../middlewares/global.middlewares.js'; // Importa como objeto
 
@@ -9,6 +9,7 @@ const route = Router();
 
 route.post("/", authMiddleware,create);
 route.get("/",authMiddleware,getAll);
+route.get("/:id",authMiddleware,findById)
 
 
 export default route;

@@ -5,25 +5,26 @@ const contractSchema = new mongoose.Schema({
     proprietario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true  
+        required: true,  
     },
 
     admin: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true  
+        required: true , 
     },
     
     locatorio: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true  
+        required: true,
     },
 
     imob: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Imobs",
-        required: true  
+        required: true ,
+        unique: true,
     },
 
     dt_inicio: {

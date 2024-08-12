@@ -1,5 +1,6 @@
 
-import { createService , findAllService,countContract} from "../services/contract.service.js";
+import { query } from "express";
+import { createService , findAllService,countContract,findByIdService} from "../services/contract.service.js";
 
 
 
@@ -39,10 +40,11 @@ export const getAll = async (req, res) => {
     if (!limit) {
         limit = 5;
     }
-
+    
     if (!offset) {
-        offset = 5;
+        offset = 0; // Comece do início da lista
     }
+    
 
 
     const contract = await findAllService(offset, limit);
@@ -57,10 +59,10 @@ export const getAll = async (req, res) => {
     const previousUrl = previous != null ? `${currentUrl}?limit=${limit}&offset=${previous}` : null;
 
 
-    if (contract.length == 0) {
-        return res.status(400).send({ message: "There are no registered contracts" });
+   if (contract.length == 0) {
+    return res.status(204).send({ message: "There are no registered contracts" });
+}
 
-    }
     res.send(
         {
             nextUrl,
@@ -80,4 +82,30 @@ export const getAll = async (req, res) => {
             }))
         });
 
+}
+
+export const findById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const contract = await findByIdService(id);
+
+        if (!contract) {
+            return res.status(404).send({ message: "contract not found" });
+        }
+
+        return res.send({
+            contract: {
+                id: contract._id,
+                proprietario: contract.proprietario,
+                admin: contract.admin,
+                locatorio: contract.locatorio,
+                imob: contract.imob,
+                dt_inicio: contract.dt_inicio,
+                dt_vencimento: contract.dt_vencimento,
+            }
+        });
+    } catch (erro) {
+        res.status(500).send({ message: erro.message });
+    }
 }
