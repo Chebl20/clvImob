@@ -27,3 +27,17 @@ export const searchByBairroService = (bairro) => Imob.find({
 export const searchByCepService = (cep) => Imob.find({
     cep: { $regex: `${cep || ""}`, $options: "i" }
 }).sort({ _id: -1 }).populate("proprietario");
+
+export const byUseService = (id) => Imob.find({ proprietario: id }).sort({ _id: -1 }).populate("proprietario")
+
+export const updateService = (id, cep, num_casa, rua, bairro, cidade, estado) =>
+    Imob.findOneAndUpdate(
+        { _id: id },
+        { cep, num_casa, rua, bairro, cidade, estado },
+        { new: true, rawResult: true }
+    );
+
+export const deleteImobService = (id) => {
+    return Imob.findOneAndDelete({ _id: id });
+};
+

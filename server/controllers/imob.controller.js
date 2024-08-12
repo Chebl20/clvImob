@@ -1,4 +1,4 @@
-import { createService, findAllService, countImob, topImobService, findByIdService, searchByCidadeService,searchByEstadoService, searchByBairroService, searchByCepService} from "../services/imob.service.js";
+import { createService, findAllService, countImob, topImobService, findByIdService, searchByCidadeService, searchByEstadoService, searchByBairroService, searchByCepService, byUseService, updateService, deleteImobService } from "../services/imob.service.js";
 import mongoose from "mongoose"
 // const { createService, findAllService, countImob, topImobService, findByIdService } = imobService;
 
@@ -23,7 +23,7 @@ export const create = async (req, res) => {
             proprietario: req.userId,
         });
 
-        return res.status(201).send();  // Corrigido para enviar status corretamente
+        return res.status(201).send("Created");  // Corrigido para enviar status corretamente
     } catch (err) {
         return res.status(500).send({ message: err.message });
     }
@@ -77,6 +77,7 @@ export const findAll = async (req, res) => {
                 bairro: imobItem.bairro,
                 cidade: imobItem.cidade,
                 estado: imobItem.estado,
+                proprietario: imobItem.proprietario
             }))
         });
 }
@@ -107,6 +108,10 @@ export const findById = async (req, res) => {
 
         const imob = await findByIdService(id);
 
+        if (!imob) {
+            return res.status(404).send({ message: "Imob not found" });
+        }
+
         return res.send({
             imob: {
                 id: imob._id,
@@ -117,11 +122,12 @@ export const findById = async (req, res) => {
                 cidade: imob.cidade,
                 estado: imob.estado,
             }
-        })
+        });
     } catch (erro) {
-        res.status(500).send({ message: erro.message })
+        res.status(500).send({ message: erro.message });
     }
 }
+
 
 export const searchByCidade = async (req, res) => {
     try {
@@ -231,3 +237,82 @@ export const searchByCep = async (req, res) => {
         res.status(500).send({ message: erro.message });
     }
 };
+
+export const byUser = async (req, res) => {
+    try {
+        const id = req.userId;
+        console.log("User ID:", id); // Verifique o valor aqui
+
+        const imob = await byUseService(id);
+        console.log("Imob Records:", imob); // Verifique os registros retornados
+
+        return res.send({
+            results: imob.map(imobItem => ({
+                id: imobItem._id,
+                cep: imobItem.cep,
+                num_casa: imobItem.num_casa,
+                rua: imobItem.rua,
+                bairro: imobItem.bairro,
+                cidade: imobItem.cidade,
+                estado: imobItem.estado,
+            }))
+        });
+
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send({ message: erro.message });
+    }
+};
+export const update = async (req, res) => {
+    try {
+        const { cep, num_casa, rua, bairro, cidade, estado } = req.body;
+        const { id } = req.params;
+
+        if (!cep && !num_casa && !rua && !bairro && !cidade && !estado) {
+            return res.status(400).send({
+                message: "Submit all fields for registration",
+            });
+        }
+
+        const imob = await findByIdService(id);
+
+        if (!imob) {
+            return res.status(404).send({ message: "Imob not found" });
+        }
+
+        if (String(imob.proprietario._id) !== req.userId) {
+            return res.status(400).send({
+                message: "You didn't update this imob",
+            });
+        }
+
+        await updateService(id, cep, num_casa, rua, bairro, cidade, estado);
+        return res.status(200).send({ message: "Imob updated successfully" });
+
+    } catch (erro) {
+        res.status(500).send({ message: erro.message });
+    }
+};
+
+export const deleteEImob = async (req, res) => {
+    try {
+        const { id } = req.params
+        const imob = await findByIdService(id);
+
+        if (!imob) {
+            return res.status(404).send({ message: "Imob not found" });
+        }
+
+        if (String(imob.proprietario._id) !== req.userId) {
+            return res.status(400).send({
+                message: "You didn't delete this imob",
+            });
+        }
+
+        await deleteImobService(id);
+        return res.send("Delete complete");
+
+    } catch (erro) {
+        res.status(500).send({ message: erro.message });
+    }
+}
