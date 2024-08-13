@@ -263,6 +263,7 @@ export const byUser = async (req, res) => {
         res.status(500).send({ message: erro.message });
     }
 };
+
 export const update = async (req, res) => {
     try {
         const { cep, num_casa, rua, bairro, cidade, estado } = req.body;
