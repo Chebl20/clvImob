@@ -25,7 +25,7 @@ const ManutencaoSchema = new mongoose.Schema({
     },
 
     desc_total:{
-        type: Number,
+        type: String,
         required: true
     },
 

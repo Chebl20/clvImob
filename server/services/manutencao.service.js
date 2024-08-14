@@ -16,9 +16,15 @@ export const findManutencaoByIdService = async (id) => {
     return Manutencao.findById(id).populate("imob");
 };
 
-// Update a manutencao by ID
-export const updateManutencaoService = async (id, data) => {
-    return Manutencao.findByIdAndUpdate(id, data, { new: true }).populate("imob");
+
+export const updateManutencaoService = async (id, updateData) => {
+        const updatedManutencao = await Manutencao.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true } 
+        );
+
+        return updatedManutencao;
 };
 
 // Delete a manutencao by ID
