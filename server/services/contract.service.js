@@ -18,7 +18,7 @@ export const countContract = () => contract.countDocuments();
 
 export const findByIdService = (id) => contract.findById(id).populate("proprietario").populate("admin").populate("locatorio").populate("imob")
 
-export const byUseService = (id) => contract.find({ proprietario: id }).sort({ _id: -1 }).populate("proprietario")
+export const byUseService = (id) => contract.find({ proprietario: id }).sort({ _id: -1 }).populate("proprietario").populate("admin").populate("locatorio").populate("imob")
 
 export const deleteContractService = (id) => {
     return contract.findOneAndDelete({ _id: id });
