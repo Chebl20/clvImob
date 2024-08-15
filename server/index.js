@@ -17,7 +17,7 @@ dotenv.config({ path: envPath });
 console.log("MONGO_URL:", process.env.MONGO_URL); // Verifique o valor impresso no console
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -29,7 +29,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors({ origin: 'http://localhost:3000/', methods: "GET,POST,PUT,DELETE", credentials: true }));
+app.use(cors({ origin: 'http://localhost:10000/', methods: "GET,POST,PUT,DELETE", credentials: true }));
 app.use("/assets", express.static(path.join(dirname, 'public/assets')));
 
 // Configuração do multer para armazenamento de arquivos
