@@ -52,7 +52,6 @@ import despesasRoute from "./routes/despesas.routes.js";
 import manutencaoRoute from "./routes/manutecao.routes.js";
 import documentoRoute from "./routes/documento.route.js";
 import pagamentoRoute from "./routes/pagamento.route.js";
-import swaggerRoute from "./routes/swagger.route.cjs";
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
 app.use("/imob", imobRoute);
@@ -61,7 +60,6 @@ app.use("/despesa", despesasRoute);
 app.use("/manutencao", manutencaoRoute);
 app.use("/documento", documentoRoute);
 app.use("/pagamento", pagamentoRoute);
-app.use("/doc",swaggerRoute);
 
 
 
