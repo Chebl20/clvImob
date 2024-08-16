@@ -30,6 +30,6 @@ export const login = async (req, res) => {
     // Envia o token e o tipo de perfil na resposta
     res.send({
         token,
-        userProfileType: user.role // Adicione o tipo de perfil aqui
+        userProfileType: user.role 
     });
 };
