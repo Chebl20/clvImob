@@ -25,7 +25,6 @@ export const login = async (req, res) => {
     // Gera o token para o usuário
     const token = generateToken(user.id);
 
-    console.log(user)
 
     // Envia o token e o tipo de perfil na resposta e o role do usuario
     res.send({

@@ -1,9 +1,11 @@
 import userService from "../services/user.service.js";
 import mongoose from "mongoose";
+import {loginService, generateToken} from "../services/auth.service.js"
 
 
 const create = async (req, res) => {
     const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
+    console.log(req.body)
 
     // Verifica se todos os campos obrigatórios estão presentes
     if (!name || !email || !password || !estado || !cidade || !bairro || !endereco || !documento || !data_nascimento) {
@@ -37,30 +39,15 @@ const create = async (req, res) => {
             return res.status(400).send({ message: "Error creating User" });
         }
 
+        const token = generateToken(user.id);
         // Envia a resposta de sucesso
-        res.status(201).send({
-            message: "User created",
-            user: {
-                id: user._id, // Identificador do usuário
-                name: user.name, // Nome do usuário
-                email: user.email, // Email do usuário
-                estado: user.estado, // Estado do usuário
-                cidade: user.cidade, // Cidade do usuário
-                bairro: user.bairro, // Bairro do usuário
-                endereco: user.endereco, // Endereço do usuário
-                documento: user.documento, // Documento do usuário
-                data_nascimento: user.data_nascimento, // Data de nascimento do usuário
-                role: user.role, // Tipo de usuário
-                banco: user.banco, // Banco do proprietário (se aplicável)
-                agencia: user.agencia, // Agência do proprietário (se aplicável)
-                conta: user.conta // Conta do proprietário (se aplicável)
-            },
-        });
+        res.status(201).send({token});
     } catch (error) {
         // Captura e envia qualquer erro ocorrido durante a criação
         res.status(500).send({ message: "Internal server error", error: error.message });
     }
 };
+
 const findAll = async (req, res) => {
     try {
         const users = await userService.findAllService();
