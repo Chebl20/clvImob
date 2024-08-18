@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import {loginService, generateToken} from "../services/auth.service.js"
 
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
     const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
     console.log(req.body)
 
@@ -48,7 +48,7 @@ const create = async (req, res) => {
     }
 };
 
-const findAll = async (req, res) => {
+export const findAll = async (req, res) => {
     try {
         const users = await userService.findAllService();
         if (users.length == 0) {
@@ -63,7 +63,7 @@ const findAll = async (req, res) => {
     }
 };
 
-const findId = async (req, res) => {
+export const findId = async (req, res) => {
     try {
         const user = req.user;
         res.send(user)
@@ -72,7 +72,7 @@ const findId = async (req, res) => {
     }
 };
 
-const UpdateId = async (req, res) => {
+export const UpdateId = async (req, res) => {
     try {
         const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
 
@@ -112,4 +112,3 @@ const UpdateId = async (req, res) => {
     }
 };
 
-export default { create, findAll, findId, UpdateId };
