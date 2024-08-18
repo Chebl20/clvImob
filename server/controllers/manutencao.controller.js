@@ -4,6 +4,7 @@ import {
     findManutencaoByIdService,
     updateManutencaoService,
     deleteManutencaoService,
+    findByUserService,
 } from "../services/manutencao.service.js";
 
 // Create a new manutencao
@@ -36,6 +37,22 @@ export const findAllManutencao = async (req, res) => {
         if (manutencao.length === 0) {
             return res.status(404).send({ message: "No manutencao records found" });
         }
+        return res.send(manutencao);
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
+};
+
+// Find manutencao records by user (proprietario)
+export const findByUser = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Supondo que o ID do usuário vem como parâmetro na URL
+        const manutencao = await findByUserService(userId);
+
+        if (manutencao.length === 0) {
+            return res.status(404).send({ message: "No manutencao records found for this user" });
+        }
+
         return res.send(manutencao);
     } catch (err) {
         return res.status(500).send({ message: err.message });
