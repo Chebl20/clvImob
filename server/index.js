@@ -30,7 +30,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors({ origin: 'http://localhost:5173', methods: "GET,POST,PUT,DELETE", credentials: true }));
+app.use(cors({ origin: 'http://localhost:5173', methods: "GET,POST,PUT,DELETE,PATCH", credentials: true }));
 app.use("/assets", express.static(path.join(dirname, 'public/assets')));
 
 // Configuração do multer para armazenamento de arquivos

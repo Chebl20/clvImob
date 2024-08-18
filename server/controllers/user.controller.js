@@ -5,7 +5,6 @@ import {loginService, generateToken} from "../services/auth.service.js"
 
 export const create = async (req, res) => {
     const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
-    console.log(req.body)
 
     // Verifica se todos os campos obrigatórios estão presentes
     if (!name || !email || !password || !estado || !cidade || !bairro || !endereco || !documento || !data_nascimento) {
@@ -80,6 +79,7 @@ export const findId = async (req, res) => {
 export const UpdateId = async (req, res) => {
     try {
         const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
+        console.log(req.body)
 
         // Verifica se pelo menos um campo obrigatório está presente
         if (!name && !email && !password && !estado && !cidade && !bairro && !endereco && !documento && !data_nascimento && !role && !banco && !agencia && !conta) {
