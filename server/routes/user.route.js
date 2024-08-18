@@ -8,7 +8,7 @@ const route = Router();
 // /user
 route.post("/", create);
 route.get("/", findAll);
-route.get("/cookie",authMiddleware)
+route.get("/cookie",authMiddleware,findId)
 route.get("/:id", authMiddleware, findId);
 route.patch("/:id", authMiddleware, UpdateId);
 

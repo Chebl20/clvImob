@@ -65,12 +65,17 @@ export const findAll = async (req, res) => {
 
 export const findId = async (req, res) => {
     try {
-        const user = req.user;
-        res.send(user)
+        const user = await userService.findIdService(req.user.id); // Supondo que req.user.id tenha o ID do usuário
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(user);
     } catch (error) {
         res.status(500).send({ message: "Internal server error", error: error.message });
     }
 };
+
+
 
 export const UpdateId = async (req, res) => {
     try {
