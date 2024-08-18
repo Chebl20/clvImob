@@ -10,6 +10,6 @@ route.post("/", create);
 route.get("/", findAll);
 route.get("/cookie",authMiddleware,findId)
 route.get("/:id", authMiddleware, findId);
-route.patch("/:id", authMiddleware, UpdateId);
+route.patch("/update", authMiddleware, UpdateId);
 
 export default route;

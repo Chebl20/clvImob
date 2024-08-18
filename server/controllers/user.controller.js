@@ -86,8 +86,9 @@ export const UpdateId = async (req, res) => {
             return res.status(400).send({ message: "Submit at least one field for update" });
         }
 
-        const { id } = req;
+        const { id } = req.user;
 
+    
         // Atualiza o usuário
         const updatedUser = await userService.updateService(
             id,

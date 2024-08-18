@@ -6,7 +6,6 @@ const findAllService = () => User.find()
 
 const findIdService = (id) => User.findById(id)
 
-
 const updateService = (
     id,
     name,
