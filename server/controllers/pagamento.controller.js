@@ -4,7 +4,8 @@ import {
     getPagamentoByIdService,
     deletePagamentoService,
     updatePagamentoService,
-    getPagamentosByUserService
+    getPagamentosByUserService,
+    getPagamentosByAdminService
 } from '../services/pagamento.service.js';
 
 // Controller para criar um novo pagamento
@@ -58,6 +59,17 @@ export const getPagamentoById = async (req, res) => {
         return res.status(500).send({ message: err.message });
     }
 };
+
+export const getPagamentosByAdmin = async (req, res) => {
+    const { adminId } = req.userId;
+  
+    try {
+      const pagamentos = await getPagamentosByAdminService(adminId);
+      res.json(pagamentos);
+    } catch (err) {
+      res.status(500).json({ error: `Erro ao buscar pagamentos: ${err.message}` });
+    }
+  };
 
 // Controller para deletar um pagamento
 export const deletePagamento = async (req, res) => {

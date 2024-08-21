@@ -5,7 +5,8 @@ import {
     getPagamentoById,
     deletePagamento,
     updatePagamento,
-    getPagamentosByUser
+    getPagamentosByUser,
+    getPagamentosByAdmin
 } from '../controllers/pagamento.controller.js';
 import {authMiddleware} from "../middlewares/auth.middlewares.js"
 
@@ -19,6 +20,8 @@ router.get('/', authMiddleware, getAllPagamentos);
 
 // Rota para obter pagamentos por usuário
 router.get('/user', authMiddleware, getPagamentosByUser);
+
+router.get('/admin/',authMiddleware, getPagamentosByAdmin)
 
 // Rota para obter um pagamento específico por ID
 router.get('/:id', authMiddleware, getPagamentoById);

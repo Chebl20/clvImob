@@ -75,3 +75,13 @@ export const updatePagamentoService = async (id, dados) => {
         status
     }, { new: true });
 };
+
+
+export const getPagamentosByAdminService = async (adminId) => {
+    try {
+      const pagamentos = await Pagamento.find({ 'contrato.admin': adminId }).populate('contrato').populate('emissor').populate('destinatario');;
+      return pagamentos;
+    } catch (err) {
+      throw new Error(`Erro ao buscar pagamentos: ${err.message}`);
+    }
+  };
