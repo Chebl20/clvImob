@@ -101,6 +101,33 @@ export const updateManutencao = async (req, res) => {
     }
 };
 
+export const editManutencao = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { tipo_manutencao, desc_total } = req.body;
+
+        // Verifica se os campos tipo_manutencao e desc_total estão presentes na requisição
+        if (tipo_manutencao === undefined || desc_total === undefined) {
+            return res.status(400).send({ message: "Tipo de manutenção e descrição são obrigatórios" });
+        }
+
+        // Busca a manutenção atual pelo ID
+        const manutencao = await findManutencaoByIdService(id);
+        if (!manutencao) {
+            return res.status(404).send({ message: "Manutencao not found" });
+        }
+
+        // Atualiza apenas os campos permitidos
+        const updatedFields = { tipo_manutencao, desc_total };
+        const updatedManutencao = await updateManutencaoService(id, updatedFields);
+
+        return res.send(updatedManutencao);
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
+};
+
+
 
 // Delete a manutencao by ID
 export const deleteManutencao = async (req, res) => {
