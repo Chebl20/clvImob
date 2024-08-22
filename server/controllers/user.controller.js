@@ -118,3 +118,22 @@ export const UpdateId = async (req, res) => {
     }
 };
 
+export const findProps = async (req, res) => {
+    try {
+        const proprietarios = await userService.getProps();
+        res.status(200).json(proprietarios);
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao buscar proprietários ", error });
+    }
+};
+
+export const findLocs = async (req, res) => {
+    try {
+        const locatarios = await userService.getLocs();
+        res.status(200).json(locatarios);
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao buscar locatários ", error });
+    }
+};
+
+
