@@ -75,6 +75,47 @@ export const findId = async (req, res) => {
 };
 
 
+export const UpdateIdConfig = async (req, res) => {
+    try {
+        const { name, email, password, estado, cidade, bairro, endereco, documento, data_nascimento, role, banco, agencia, conta } = req.body;
+        console.log(req.body)
+
+        // Verifica se pelo menos um campo obrigatório está presente
+        if (!name && !email && !password && !estado && !cidade && !bairro && !endereco && !documento && !data_nascimento && !role && !banco && !agencia && !conta) {
+            return res.status(400).send({ message: "Submit at least one field for update" });
+        }
+
+        const { id } = req.user;
+
+    
+        // Atualiza o usuário
+        const updatedUser = await userService.updateService(
+            id,
+            name,
+            email,
+            password,
+            estado,
+            cidade,
+            bairro,
+            endereco,
+            documento,
+            data_nascimento,
+            role,
+            banco,
+            agencia,
+            conta
+        );
+
+        // Verifica se a atualização do usuário falhou
+        if (!updatedUser) {
+            return res.status(400).send({ message: "Error updating User" });
+        }
+
+        res.send({ message: "User successfully updated", user: updatedUser });
+    } catch (error) {
+        res.status(500).send({ message: "Internal server error", error: error.message });
+    }
+};
 
 export const UpdateId = async (req, res) => {
     try {
@@ -86,7 +127,7 @@ export const UpdateId = async (req, res) => {
             return res.status(400).send({ message: "Submit at least one field for update" });
         }
 
-        const { id } = req.user;
+        const { id } = req.params;
 
     
         // Atualiza o usuário
