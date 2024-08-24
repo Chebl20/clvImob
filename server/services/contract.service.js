@@ -4,14 +4,22 @@ export const createService = (body) => contract.create(body);
 
 // export const findAllService = (offset, limit) => contract.find().skip(offset).limit(limit).populate("proprietario");
 
-export const findAllService = async (offset, limit) => {
+export const findAllService = async (offset = 0, limit = 10) => {
     console.log('Offset:', offset, 'Limit:', limit);
-    const contracts = await contract.find()
-        .skip(offset)
-        .limit(limit)
-        .exec();
-
-    return contracts
+    try {
+        const contracts = await contract.find()
+            .populate("proprietario")
+            .populate("admin")
+            .populate("locatorio")
+            .populate("imob")
+            .skip(offset)
+            .limit(limit);
+        
+        return contracts;
+    } catch (error) {
+        console.error('Erro ao buscar contratos:', error);
+        throw error;
+    }
 };
 
 export const countContract = () => contract.countDocuments();
