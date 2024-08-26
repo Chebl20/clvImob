@@ -177,4 +177,30 @@ export const findLocs = async (req, res) => {
     }
 };
 
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Verifica se a senha foi fornecida
+        if (req.userRole !== 'admin' ) {
+            return res.status(403).send({
+                message: "You don't have permission to delete this user",
+            });
+        }
+
+        // Busca o usuário pelo ID
+        const user = await userService.findIdService(id);
+
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        // Deleta o usuário
+        await userService.deleteService(id);
+
+        res.status(200).send({ message: "User successfully deleted" });
+    } catch (error) {
+        res.status(500).send({ message: "Internal server error", error: error.message });
+    }
+};
 

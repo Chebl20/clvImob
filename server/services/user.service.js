@@ -67,11 +67,14 @@ const getLocs = async () => {
 };
 
 
+const deleteService = (id) => User.findByIdAndDelete(id);
+
 export default {
     createService,
     findAllService,
     findIdService,
     updateService,
     getLocs,
-    getProps
+    getProps,
+    deleteService
 };

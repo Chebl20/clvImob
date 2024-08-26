@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {create, findAll, findId, UpdateId,findLocs, findProps,UpdateIdConfig} from '../controllers/user.controller.js';
+import {create, findAll, findId, UpdateId,findLocs, findProps,UpdateIdConfig, deleteUser} from '../controllers/user.controller.js';
 import middlewares from '../middlewares/global.middlewares.js'; // Importa como objeto
 import {authMiddleware} from "../middlewares/auth.middlewares.js"
 
@@ -14,5 +14,6 @@ route.get("/loc",authMiddleware,findLocs)
 route.patch("/update", authMiddleware, UpdateIdConfig);
 route.patch("/update/:id", authMiddleware, UpdateId);
 route.get("/:id", authMiddleware, findId);
+route.delete("/:id",authMiddleware,deleteUser)
 
 export default route;
