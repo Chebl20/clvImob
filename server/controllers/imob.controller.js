@@ -17,9 +17,9 @@ import mongoose from "mongoose";
 // Create Imob
 export const create = async (req, res) => {
     try {
-        const { tipo, cep, endereco, cidade, estado, quartos, banheiro, tamanho, aluguel} = req.body;
+        const { tipo, cep, endereco, cidade, estado, quartos, banheiro, tamanho, aluguel } = req.body;
 
-        if (!tipo || !cep || !endereco || !cidade || !estado || !quartos || !banheiro || !tamanho ||!aluguel) {
+        if (!tipo || !cep || !endereco || !cidade || !estado || !quartos || !banheiro || !tamanho || !aluguel) {
             return res.status(400).send({
                 message: "Submit all fields for registration",
             });
@@ -32,6 +32,36 @@ export const create = async (req, res) => {
             cidade,
             estado,
             proprietario: req.userId,
+            quartos,
+            banheiro,
+            tamanho,
+            aluguel,
+        });
+
+        return res.status(201).send("Created");
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
+};
+
+
+export const createByAdmin = async (req, res) => {
+    try {
+        const { tipo, cep, endereco, cidade, estado, proprietario, quartos, banheiro, tamanho, aluguel } = req.body;
+
+        if (!tipo || !cep || !endereco || !cidade || !estado || !proprietario || !quartos || !banheiro || !tamanho || !aluguel) {
+            return res.status(400).send({
+                message: "Submit all fields for registration",
+            });
+        }
+
+        await createService({
+            tipo,
+            cep,
+            endereco,
+            cidade,
+            estado,
+            proprietario,
             quartos,
             banheiro,
             tamanho,
@@ -333,6 +363,53 @@ export const update = async (req, res) => {
     }
 };
 
+export const updateAdmin = async (req, res) => {
+    try {
+        const { tipo, cep, endereco, cidade, estado, proprietario, quartos, banheiro, tamanho, aluguel } = req.body;
+        const { id } = req.params;
+
+        // Verifica se pelo menos um campo foi fornecido para atualização
+        if (!tipo && !cep && !endereco && !cidade && !estado &&!proprietario && !quartos && !banheiro && !tamanho && !aluguel) {
+            return res.status(400).send({
+                message: "At least one field is required for update",
+            });
+        }
+
+        // Encontra o imóvel pelo ID
+        const imob = await findByIdService(id);
+
+        if (!imob) {
+            return res.status(404).send({ message: "Imob not found" });
+        }
+
+        // Verifica se o usuário é um administrador ou o proprietário do imóvel
+        if (req.userRole !== 'admin' && String(imob.proprietario._id) !== req.userId) {
+            return res.status(403).send({
+                message: "You don't have permission to update this imob",
+            });
+        }
+
+        // Cria um objeto com os campos fornecidos
+        const updateFields = {};
+        if (tipo) updateFields.tipo = tipo;
+        if (cep) updateFields.cep = cep;
+        if (endereco) updateFields.endereco = endereco;
+        if (cidade) updateFields.cidade = cidade;
+        if (estado) updateFields.estado = estado;
+        if (proprietario) updateFields.proprietario = proprietario;
+        if (quartos) updateFields.quartos = parseInt(quartos);
+        if (banheiro) updateFields.banheiro = parseInt(banheiro);
+        if (tamanho) updateFields.tamanho = parseFloat(tamanho);
+        if (aluguel) updateFields.aluguel = parseFloat(aluguel);
+
+        // Atualiza o imóvel com os campos fornecidos
+        const updatedImob = await updateService(id, updateFields);
+
+        return res.send({ message: "Imob successfully updated", updatedImob });
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
+};
 
 // Delete Imob
 export const deleteImob = async (req, res) => {
